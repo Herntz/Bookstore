@@ -13,10 +13,10 @@ import { UserModule } from './user/user.module';
       password: 'Herntz3.0',
       database: 'bookstore',
       autoLoadEntities: true,
-      synchronize: true,
-    }),
+      synchronize:true,
+}),
     AuthModule,
-    UserModule
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
