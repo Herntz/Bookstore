@@ -4,16 +4,19 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { UserSignUp } from './dto/user-signup.dto';
+import { UserSignUpDto } from './dto/user-signup.dto';
 import * as bcrypt from 'bcrypt';
+import { UserSignInDto } from './dto/user-signin.dto';
+import { sign } from 'jsonwebtoken';
 @Injectable()
 export class UsersService {
+
   constructor(
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>,
   ) {}
 
-async signup(userSignUp: UserSignUp):Promise<UserEntity>{
+async signup(userSignUp: UserSignUpDto):Promise<UserEntity>{
     
     if(userSignUp.password !== userSignUp.confirm_password) {
       throw new BadRequestException("Passwords do not match");
@@ -32,6 +35,18 @@ async signup(userSignUp: UserSignUp):Promise<UserEntity>{
     userSignUp.password = await bcrypt.hash(userSignUp.password, salt)
     const user = this.usersRepository.create(userSignUp);
     return await this.usersRepository.save(user);
+}
+
+async signin(userSignInDto: UserSignInDto):Promise<UserEntity>{
+  const user = await this.usersRepository.createQueryBuilder("users")
+  .addSelect("users.password")
+  .where("users.username = :username", {username: userSignInDto.username}).getOne();
+  if(!user) throw new BadRequestException("Username does not exist");
+  const isMatch = await bcrypt.compare(userSignInDto.password, user.password)
+  if(!isMatch) throw new BadRequestException("Password is incorrect");
+  delete user.password;
+  return user;
+
 }
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
@@ -54,4 +69,12 @@ async signup(userSignUp: UserSignUp):Promise<UserEntity>{
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
+  async findUserByUsername(username:string){
+    return await this.usersRepository.findOneBy({username});
+  }
+  async accessToken(user:UserEntity):Promise<string>{
+    return sign({id:user.id,username:user.username},
+       process.env.ACCESS_TOKEN_SECRET_KEY,{expiresIn:process.env.ACCESS_TOKEN_EXPIRE_TIME})
+  }
+  
 }
