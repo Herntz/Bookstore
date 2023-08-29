@@ -1,15 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete , UseGuards} from '@nestjs/common';
 import { GenreService } from './genre.service';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { UpdateGenreDto } from './dto/update-genre.dto';
+import { CurrentUser } from 'src/utility/decorators/current-user.decorator';
+import { UserEntity } from 'src/users/entities/user.entity';
+import { AuthorizeGuard } from 'src/utility/guards/authorization.guards';
+import { Roles } from 'src/utility/common/user.roles.enum';
+import { AuthenticationGuard } from 'src/utility/guards/authentication.guards';
+import { GenreEntity } from './entities/genre.entity';
 
 @Controller('genre')
 export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 
+  @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Post()
-  create(@Body() createGenreDto: CreateGenreDto) {
-    return this.genreService.create(createGenreDto);
+  create(@Body() createGenreDto: CreateGenreDto, @CurrentUser() currentUser:UserEntity):Promise<GenreEntity> {
+    return this.genreService.create(createGenreDto,currentUser);
   }
 
   @Get()
