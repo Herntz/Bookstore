@@ -2,7 +2,6 @@ import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import dataSource, { dataSourceOptions } from 'db/data-source';
 import { UsersModule } from './users/users.module';
-import { CurrentUserMiddleware } from './utility/middlewares/current-user.middlewares';
 
 @Module({
   imports: [
@@ -12,10 +11,4 @@ import { CurrentUserMiddleware } from './utility/middlewares/current-user.middle
   controllers: [],
   providers: [],
 })
-export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(CurrentUserMiddleware)
-      .forRoutes({ path: '*', method: RequestMethod.ALL });
-  }
-}
+export class AppModule {}
