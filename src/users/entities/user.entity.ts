@@ -19,8 +19,7 @@ export class UserEntity {
     @Column({select: false, nullable: false })
     password: string;
     @Column({ type: 'enum', enum: Roles, default: Roles.USER })
-    roles: Roles;  
-
+    roles: Roles[];  
     @Column({default: 1})
     isActive: boolean;
     @CreateDateColumn({ type: 'timestamp' })

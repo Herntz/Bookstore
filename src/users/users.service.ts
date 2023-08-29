@@ -44,7 +44,7 @@ async signin(userSignInDto: UserSignInDto):Promise<UserEntity>{
   if(!user) throw new BadRequestException("Username does not exist");
   const isMatch = await bcrypt.compare(userSignInDto.password, user.password)
   if(!isMatch) throw new BadRequestException("Password is incorrect");
-  delete user.password;
+  delete user.password; 
   return user;
 
 }
@@ -72,6 +72,10 @@ async signin(userSignInDto: UserSignInDto):Promise<UserEntity>{
   async findUserByUsername(username:string){
     return await this.usersRepository.findOneBy({username});
   }
-
+async accessToken (user:UserEntity): Promise<string>{
+  return sign({id:user.id,username:user.username},
+    process.env.ACCESS_TOKEN_SECRET_KEY,
+    {expiresIn:process.env.ACCESS_TOKEN_EXPIRE_TIME});
+}
   
 }
