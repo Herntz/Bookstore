@@ -20,13 +20,20 @@ export class CurentUserMiddleware implements NestMiddleware {
     if(!authHeader || isArray(authHeader) || !authHeader.startsWith('Bearer ')){
        req.currentUser=null;
        next();
+       return;
 
     }else {
-        const token=authHeader.split(' ')[1];
+        try{
+         const token=authHeader.split(' ')[1];
         const {id}=<jwtPayload>verify(token,process.env.ACCESS_TOKEN_SECRET_KEY);
         const currentUser= await this.usersService.findOne(+id);
         req.currentUser=currentUser;
-        next();
+        next();   
+        }catch(error){
+            req.currentUser=null;
+            next();
+        }
+
         }
     
   }
