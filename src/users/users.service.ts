@@ -72,9 +72,6 @@ async signin(userSignInDto: UserSignInDto):Promise<UserEntity>{
   async findUserByUsername(username:string){
     return await this.usersRepository.findOneBy({username});
   }
-  async accessToken(user:UserEntity):Promise<string>{
-    return sign({id:user.id,username:user.username},
-       process.env.ACCESS_TOKEN_SECRET_KEY,{expiresIn:process.env.ACCESS_TOKEN_EXPIRE_TIME})
-  }
+
   
 }

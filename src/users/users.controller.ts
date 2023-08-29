@@ -15,13 +15,10 @@ export class UsersController {
        return {user:await this.usersService.signup(body)};
     }
   @Post('signin')
-    async signin(@Body() userSignInDto: UserSignInDto): Promise<{
-      accessToken: string;
-      user: UserEntity;}>
+    async signin(@Body() userSignInDto: UserSignInDto)
       {
         const user= await this.usersService.signin(userSignInDto);
-        const accessToken= await this.usersService.accessToken(user);
-        return {accessToken,user};
+        return user;
       }
        
   @Post()
