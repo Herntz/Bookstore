@@ -30,10 +30,10 @@ export class GenreController {
     return this.genreService.findOne(+id);
 
   }
-
+  @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto) {
-    return this.genreService.update(+id, updateGenreDto);
+  async update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto) {
+    return await this.genreService.update(+id, updateGenreDto);
   }
 
   @Delete(':id')
