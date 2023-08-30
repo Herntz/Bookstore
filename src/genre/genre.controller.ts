@@ -21,13 +21,13 @@ export class GenreController {
   }
 
   @Get()
-  async findAll() {
+  async findAll():Promise<GenreEntity[]> {
     return await this.genreService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.genreService.findOne(+id);
+  async findOne(@Param('id') id: string):Promise<GenreEntity> {
+    return await this.genreService.findOne(+id);
 
   }
 

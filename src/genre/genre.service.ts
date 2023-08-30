@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { UpdateGenreDto } from './dto/update-genre.dto';
 import { GenreEntity } from './entities/genre.entity';
@@ -13,16 +13,21 @@ export class GenreService {
 
  async create(createGenreDto: CreateGenreDto,currentUser:UserEntity):Promise<GenreEntity> {
     const genre= this.genreRepository.create(createGenreDto);
+    const genreExist = await this.genreRepository.findOne({where : {genres: genre.genres}})
+    if(genreExist) {
+      throw new BadRequestException("Genre already exists");
+    }
+    
     genre.addBy=currentUser;
     return await this.genreRepository.save(genre);
     
   }
 
-  async findAll() {
+  async findAll():Promise<GenreEntity[]> {
     return await this.genreRepository.find();
   }
 
-  async findOne(id: number) {
+  async findOne(id: number):Promise<GenreEntity> {
     return this.genreRepository.findOneBy({id});
   }
 
