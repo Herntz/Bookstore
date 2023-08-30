@@ -5,7 +5,7 @@ import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Ti
 export class GenreEntity {
   @PrimaryGeneratedColumn()
   id:number;
-  @Column()
+  @Column({ unique: true, nullable: false })
   genres:string;
   
    @CreateDateColumn()
