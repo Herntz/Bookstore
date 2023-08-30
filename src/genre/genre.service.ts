@@ -23,7 +23,20 @@ export class GenreService {
   }
 
   async findOne(id: number) {
-    return this.genreRepository.findOneBy({id});
+    return this.genreRepository.findOne(
+      {
+        where:{id:id},
+        relations:{addBy:true},
+        select:{
+          addBy:{
+         id:true,
+         nom:true,
+         email:true,
+          }
+        }
+      }
+     
+    );
   }
 
   update(id: number, updateGenreDto: UpdateGenreDto) {
