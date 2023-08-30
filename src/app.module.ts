@@ -4,9 +4,12 @@ import dataSource, { dataSourceOptions } from 'db/data-source';
 import { UsersModule } from './users/users.module';
 import { GenreModule } from './genre/genre.module';
 import { CurentUserMiddleware } from './utility/middlewares/current-user.middleware';
-import { UsersService } from './users/users.service';
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot(dataSourceOptions),
     UsersModule,
     GenreModule,
