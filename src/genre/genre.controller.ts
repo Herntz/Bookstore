@@ -29,6 +29,7 @@ export class GenreController {
   async findOne(@Param('id') id: string):Promise<GenreEntity> {
     return this.genreService.findOne(+id);
 
+
   }
   @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Patch(':id')
