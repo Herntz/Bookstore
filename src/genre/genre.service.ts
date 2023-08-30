@@ -37,15 +37,15 @@ export class GenreService {
           addBy:{
          id:true,
          nom:true,
+         prenom:true,
          email:true,
           }
         }
       }
      
     );
-
-
-  async update(id: number, fields:Partial<UpdateGenreDto>):Promise<GenreEntity> {
+    }
+  async update(id:number, fields:Partial<UpdateGenreDto>):Promise<GenreEntity>  {
     const genre=await this.findOne(id);
     if(!genre) throw new NotFoundException('genre not found');
     Object.assign(genre,fields);
@@ -56,5 +56,5 @@ export class GenreService {
     return `This action removes a #${id} genre`;
   }
 
-}
 
+}
