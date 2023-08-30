@@ -18,8 +18,8 @@ export class GenreService {
     
   }
 
-  findAll() {
-    return `This action returns all genre`;
+  async findAll() {
+    return await this.genreRepository.find();
   }
 
   findOne(id: number) {

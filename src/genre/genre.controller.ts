@@ -21,8 +21,8 @@ export class GenreController {
   }
 
   @Get()
-  findAll() {
-    return this.genreService.findAll();
+  async findAll() {
+    return await this.genreService.findAll();
   }
 
   @Get(':id')
