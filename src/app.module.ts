@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { GenreModule } from './genre/genre.module';
 import { CurentUserMiddleware } from './utility/middlewares/current-user.middleware';
 import { ConfigModule } from '@nestjs/config';
+import { BooksModule } from './books/books.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -13,6 +14,7 @@ import { ConfigModule } from '@nestjs/config';
     TypeOrmModule.forRoot(dataSourceOptions),
     UsersModule,
     GenreModule,
+    BooksModule,
   ],
   controllers: [],
   providers: [],
