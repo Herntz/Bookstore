@@ -6,9 +6,8 @@ export class GenreEntity {
   @PrimaryGeneratedColumn()
   id:number;
   @Column()
-  title:string;
-  @Column()
-   description:string;
+  genres:string;
+  
    @CreateDateColumn()
    createAt: Timestamp;
    @UpdateDateColumn()
