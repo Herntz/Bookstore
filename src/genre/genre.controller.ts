@@ -9,7 +9,7 @@ import { Roles } from 'src/utility/common/user.roles.enum';
 import { AuthenticationGuard } from 'src/utility/guards/authentication.guards';
 import { GenreEntity } from './entities/genre.entity';
 
-@Controller('genre')
+@Controller('genres')
 export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 
@@ -21,19 +21,20 @@ export class GenreController {
   }
 
   @Get()
-  findAll() {
-    return this.genreService.findAll();
+  async findAll():Promise<GenreEntity[]> {
+    return await this.genreService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string):Promise<GenreEntity> {
     return this.genreService.findOne(+id);
 
-  }
 
+  }
+  @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto) {
-    return this.genreService.update(+id, updateGenreDto);
+  async update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto):Promise<GenreEntity> {
+    return await this.genreService.update(+id, updateGenreDto);
   }
 
   @Delete(':id')
