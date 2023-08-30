@@ -27,13 +27,14 @@ export class GenreController {
 
   @Get(':id')
   async findOne(@Param('id') id: string):Promise<GenreEntity> {
-    return await this.genreService.findOne(+id);
+    return this.genreService.findOne(+id);
+
 
   }
-
+  @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto) {
-    return this.genreService.update(+id, updateGenreDto);
+  async update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto):Promise<GenreEntity> {
+    return await this.genreService.update(+id, updateGenreDto);
   }
 
   @Delete(':id')
