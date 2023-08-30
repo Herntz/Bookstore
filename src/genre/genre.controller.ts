@@ -21,18 +21,18 @@ export class GenreController {
   }
 
   @Get()
-  async findAll() {
+  async findAll():Promise<GenreEntity[]> {
     return await this.genreService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string):Promise<GenreEntity> {
     return this.genreService.findOne(+id);
 
   }
   @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto) {
+  async update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto):Promise<GenreEntity> {
     return await this.genreService.update(+id, updateGenreDto);
   }
 

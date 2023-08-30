@@ -18,15 +18,15 @@ export class GenreService {
     
   }
 
-  async findAll() {
+  async findAll():Promise<GenreEntity[]> {
     return await this.genreRepository.find();
   }
 
-  async findOne(id: number) {
+  async findOne(id: number):Promise<GenreEntity> {
     return this.genreRepository.findOneBy({id});
   }
 
-  async update(id: number, fields:Partial<UpdateGenreDto>) {
+  async update(id: number, fields:Partial<UpdateGenreDto>):Promise<GenreEntity> {
     const genre=await this.findOne(id);
     if(!genre) throw new NotFoundException('genre not found');
     Object.assign(genre,fields);
