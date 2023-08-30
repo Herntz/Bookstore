@@ -1,3 +1,4 @@
+import { Book } from "src/books/entities/book.entity";
 import { GenreEntity } from "src/genre/entities/genre.entity";
 import { Roles } from "src/utility/common/user.roles.enum";
 import { Entity,
@@ -28,4 +29,7 @@ export class UserEntity {
     updatedAt: Date;
     @OneToMany(()=>GenreEntity,(gen)=>gen.addBy)
     genre:GenreEntity[];
+
+    @OneToMany(() => Book,(books)=>books.addBy)
+    books:Book[];
 }

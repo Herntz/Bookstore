@@ -1,5 +1,6 @@
+import { Book } from "src/books/entities/book.entity";
 import { UserEntity } from "src/users/entities/user.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn} from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn} from "typeorm";
 
 @Entity({name:'genres'})
 export class GenreEntity {
@@ -16,6 +17,8 @@ export class GenreEntity {
    @ManyToOne(()=>UserEntity,(user)=>user.genre)
    addBy:UserEntity;
 
+   @OneToMany(() => Book,(books)=>books.genre)
+   books:Book[];
 }
 
 
