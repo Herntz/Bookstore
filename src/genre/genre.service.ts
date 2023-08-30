@@ -29,7 +29,7 @@ export class GenreService {
 
 
   async findOne(id: number):Promise<GenreEntity> {
-    return this.genreRepository.findOne(
+    return await this.genreRepository.findOne(
       {
         where:{id:id},
         relations:{addBy:true},
@@ -39,7 +39,7 @@ export class GenreService {
          nom:true,
          prenom:true,
          email:true,
-          }
+              }
         }
       }
      
