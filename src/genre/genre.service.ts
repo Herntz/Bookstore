@@ -2,17 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { UpdateGenreDto } from './dto/update-genre.dto';
 import { GenreEntity } from './entities/genre.entity';
-import { Repository } from 'typeorm'
-import { CurrentUser } from 'src/utility/decorators/current-user.decorator';
 import { UserEntity } from 'src/users/entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class GenreService {
-  constructor(@InjectRepository(GenreEntity)private readonly 
-  genreRepository:Repository<GenreEntity>){}
+  constructor(@InjectRepository(GenreEntity)
+   private readonly genreRepository:Repository<GenreEntity>){}
 
- async create(createGenreDto: CreateGenreDto, @CurrentUser() currentUser:UserEntity):Promise<GenreEntity> {
-    const genre= await this.genreRepository.create(createGenreDto);
+ async create(createGenreDto: CreateGenreDto,currentUser:UserEntity):Promise<GenreEntity> {
+    const genre= this.genreRepository.create(createGenreDto);
     genre.addBy=currentUser;
     return await this.genreRepository.save(genre);
     
@@ -33,8 +33,6 @@ export class GenreService {
   remove(id: number) {
     return `This action removes a #${id} genre`;
   }
-}
-function InjectRepository(GenreEntity: any): (target: typeof GenreService, propertyKey: undefined, parameterIndex: 0) => void {
-  throw new Error('Function not implemented.');
+
 }
 
