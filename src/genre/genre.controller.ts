@@ -8,8 +8,10 @@ import { AuthorizeGuard } from 'src/utility/guards/authorization.guards';
 import { Roles } from 'src/utility/common/user.roles.enum';
 import { AuthenticationGuard } from 'src/utility/guards/authentication.guards';
 import { GenreEntity } from './entities/genre.entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('genres')
+@ApiTags('Genres')
 export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 
