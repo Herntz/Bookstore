@@ -27,9 +27,23 @@ export class GenreService {
     return await this.genreRepository.find();
   }
 
+
   async findOne(id: number):Promise<GenreEntity> {
-    return this.genreRepository.findOneBy({id});
-  }
+    return this.genreRepository.findOne(
+      {
+        where:{id:id},
+        relations:{addBy:true},
+        select:{
+          addBy:{
+         id:true,
+         nom:true,
+         email:true,
+          }
+        }
+      }
+     
+    );
+
 
   async update(id: number, fields:Partial<UpdateGenreDto>):Promise<GenreEntity> {
     const genre=await this.findOne(id);
