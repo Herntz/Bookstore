@@ -26,8 +26,9 @@ export class GenreController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.genreService.findOne(+id);
+
   }
 
   @Patch(':id')

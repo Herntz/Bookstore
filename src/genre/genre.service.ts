@@ -22,8 +22,8 @@ export class GenreService {
     return `This action returns all genre`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} genre`;
+  async findOne(id: number) {
+    return this.genreRepository.findOneBy({id});
   }
 
   update(id: number, updateGenreDto: UpdateGenreDto) {
