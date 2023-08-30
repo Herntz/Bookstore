@@ -15,8 +15,9 @@ export class GenreController {
 
   @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Post()
-  create(@Body() createGenreDto: CreateGenreDto, @CurrentUser() currentUser:UserEntity):Promise<GenreEntity> {
-    return this.genreService.create(createGenreDto,currentUser);
+  async create(@Body() createGenreDto: CreateGenreDto, @CurrentUser()
+   currentUser:UserEntity):Promise<GenreEntity> {
+    return await this.genreService.create(createGenreDto,currentUser);
   }
 
   @Get()
