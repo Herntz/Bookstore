@@ -9,7 +9,7 @@ import { Roles } from 'src/utility/common/user.roles.enum';
 import { AuthenticationGuard } from 'src/utility/guards/authentication.guards';
 import { GenreEntity } from './entities/genre.entity';
 
-@Controller('genre')
+@Controller('genres')
 export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 
