@@ -31,11 +31,13 @@ export class BooksController {
     return await  this.booksService.findOne(+id);
   }
 
+  @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.booksService.update(+id, updateBookDto);
+ async update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto,@CurrentUser() currentUser:UserEntity):Promise<Book> {
+    return await this.booksService.update(+id, updateBookDto,currentUser);
   }
 
+  @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.booksService.remove(+id);

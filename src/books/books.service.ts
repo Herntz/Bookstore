@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -29,16 +29,35 @@ export class BooksService {
   }
 
   async findOne(id: number) {
-    return await this.bookRepository.findOne({
+    const findBook=await this.bookRepository.findOne({
       where:{id:id},
+      relations:{addBy:true,genre:true,},
+      select:{
+            addBy:{id:true,nom:true,prenom:true, email:true,},
+            genre:{ id:true,genres:true}
+             }
     });
+    if (!findBook)throw new NotFoundException('Book by id `'+id+'` not found ');
+  return findBook;
   }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
+  async update(id: number, updateBookDto:Partial<UpdateBookDto>,currentUser:UserEntity):Promise<Book> {
+    const book= await this.findOne(id);
+    Object.assign(book,updateBookDto)
+    book.addBy=currentUser;
+    if (updateBookDto.genreId) {
+      const genre =await this.genreService.findOne(+updateBookDto.genreId);
+      book.genre=genre
+    }
+
+    return await this.bookRepository.save(book);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} book`;
+  async remove(id: number){
+    const book = await this.findOne(id);
+    if (!book) {
+      throw new NotFoundException('Etudiant not found');
+    }
+    return await this.bookRepository.delete(id);
   }
 }
