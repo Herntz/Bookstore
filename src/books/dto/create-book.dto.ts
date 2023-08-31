@@ -29,6 +29,6 @@ export class CreateBookDto {
 
     @IsNotEmpty({message:'genre should not be empty.'})
     @IsNumber({},{message:'genre should be number'})
-    genre:number;
+    genreId:number;
 
 }

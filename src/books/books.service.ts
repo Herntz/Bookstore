@@ -15,11 +15,11 @@ export class BooksService {
   
   
   async create(createBookDto: CreateBookDto,currentUser:UserEntity):Promise<Book> {
-    const genre =await this.genreService.findOne(+createBookDto.genre);
+    const genre =await this.genreService.findOne(+createBookDto.genreId);
 
     const book = this.bookRepository.create(createBookDto);
     book.genre = genre;
-    
+
     book.addBy=currentUser;
     return await this.bookRepository.save(book);
   }
