@@ -15,13 +15,13 @@ export class BooksController {
   }
 
   @Get()
-  findAll() {
-    return this.booksService.findAll();
+  async findAll():Promise<Book[]> {
+    return await this.booksService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.booksService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await  this.booksService.findOne(+id);
   }
 
   @Patch(':id')
