@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { GenreService } from 'src/genre/genre.service';
 import { UserEntity } from 'src/users/entities/user.entity';
 
+
 @Injectable()
 export class BooksService {
   constructor(@InjectRepository(Book) private readonly bookRepository:Repository<Book>,
@@ -21,12 +22,14 @@ export class BooksService {
     return await this.bookRepository.save(book);
   }
 
-  findAll() {
-    return `This action returns all books`;
+  async findAll() :Promise<Book[]> {
+    return this.bookRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
+  async findOne(id: number) {
+    return await this.bookRepository.findOne({
+      where:{id:id},
+    });
   }
 
   update(id: number, updateBookDto: UpdateBookDto) {
