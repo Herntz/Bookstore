@@ -1,5 +1,6 @@
 import { Book } from "src/books/entities/book.entity";
 import { GenreEntity } from "src/genre/entities/genre.entity";
+import { ReviewEntity } from "src/reviews/entities/review.entity";
 import { Roles } from "src/utility/common/user.roles.enum";
 import { Entity,
     PrimaryGeneratedColumn,
@@ -32,4 +33,7 @@ export class UserEntity {
 
     @OneToMany(() => Book,(books)=>books.addBy)
     books:Book[];
+    
+    @OneToMany(()=>ReviewEntity,(rev)=>rev.user)
+    reviews: ReviewEntity[];
 }

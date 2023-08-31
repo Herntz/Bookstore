@@ -6,6 +6,7 @@ import { GenreModule } from './genre/genre.module';
 import { CurentUserMiddleware } from './utility/middlewares/current-user.middleware';
 import { ConfigModule } from '@nestjs/config';
 import { BooksModule } from './books/books.module';
+import { ReviewsModule } from './reviews/reviews.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,6 +16,7 @@ import { BooksModule } from './books/books.module';
     UsersModule,
     GenreModule,
     BooksModule,
+    ReviewsModule,
   ],
   controllers: [],
   providers: [],

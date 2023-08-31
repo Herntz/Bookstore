@@ -1,6 +1,7 @@
 import { GenreEntity } from "src/genre/entities/genre.entity";
+import { ReviewEntity } from "src/reviews/entities/review.entity";
 import { UserEntity } from "src/users/entities/user.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from "typeorm";
 
 @Entity({name:'books'})
 export class Book {
@@ -34,6 +35,9 @@ export class Book {
 
     @ManyToOne(()=>GenreEntity,(genre)=>genre.books)
     genre:GenreEntity;
+
+    @OneToMany(()=>ReviewEntity,(rev)=>rev.book)
+    reviews:ReviewEntity[];
 
 
 
