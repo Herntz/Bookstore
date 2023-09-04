@@ -32,6 +32,19 @@ export class ReviewsService {
     return `This action returns all reviews`;
   }
 
+  async findAllByBook(id:number):Promise<ReviewEntity[]>{
+    const book=await this.bookService.findOne(id);
+    return await this.reviewRepository.find({
+      where:{book:{id}},
+      relations:{
+        user:true,
+        book:{
+          genre:true
+      }
+    }
+    })
+
+  }
   async findOne(id: number):Promise<ReviewEntity> {
     const review=await this.reviewRepository.findOne({
       where:{id},
@@ -50,8 +63,9 @@ export class ReviewsService {
     return `This action updates a #${id} review`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} review`;
+  async remove(id: number) {
+    const review=await this.findOne(id);
+    return this.reviewReposity.remove(review);
   }
   async findOneByUserAndBook(userId:number,bookId:number){
     return await this.reviewRepository.findOne({
