@@ -28,7 +28,7 @@ export class ReviewsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string):Promise<ReviewEntity>  {
     return await this.reviewsService.findOne(+id);
   }
 

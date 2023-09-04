@@ -32,7 +32,7 @@ export class ReviewsService {
     return `This action returns all reviews`;
   }
 
-  async findOne(id: number) {
+  async findOne(id: number):Promise<ReviewEntity> {
     const review=await this.reviewRepository.findOne({
       where:{id},
       relations:{
