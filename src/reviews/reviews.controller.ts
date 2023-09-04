@@ -28,8 +28,8 @@ export class ReviewsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.reviewsService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.reviewsService.findOne(+id);
   }
 
   @Patch(':id')
