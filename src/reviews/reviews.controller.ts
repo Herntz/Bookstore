@@ -8,6 +8,8 @@ import { AuthenticationGuard } from 'src/utility/guards/authentication.guards';
 import { CurrentUser } from 'src/utility/decorators/current-user.decorator';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { ReviewEntity } from './entities/review.entity';
+import { Roles } from 'src/utility/common/user.roles.enum';
+import { AuthorizeGuard } from 'src/utility/guards/authorization.guards';
 
 @Controller('reviews')
 @ApiTags('Reviews')
@@ -22,9 +24,15 @@ export class ReviewsController {
     return await this.reviewsService.create(createReviewDto,currentUser);
   }
 
-  @Get()
+  @Get('/all')
   findAll() {
     return this.reviewsService.findAll();
+  }
+
+  @Get()
+ async findAllByBook(@Body('bookId') bookId:number){
+    return await this.reviewsService.findAllByBook(+bookId);
+
   }
 
   @Get(':id')
@@ -37,6 +45,7 @@ export class ReviewsController {
     return this.reviewsService.update(+id, updateReviewDto);
   }
 
+  @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.reviewsService.remove(+id);
