@@ -32,7 +32,16 @@ export class ReviewsService {
     return `This action returns all reviews`;
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
+    const review=await this.reviewRepository.findOne({
+      where:{id},
+      relations:{
+        user:true,
+        book:{
+          genre:true
+      }
+    }
+    })
     return `This action returns a #${id} review`;
   }
 
