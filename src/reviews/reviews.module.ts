@@ -6,7 +6,7 @@ import { ReviewEntity } from './entities/review.entity';
 import { BooksModule } from 'src/books/books.module';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([ReviewEntity]),BooksModule]
+  imports:[TypeOrmModule.forFeature([ReviewEntity]),BooksModule],
   controllers: [ReviewsController],
   providers: [ReviewsService],
 })
