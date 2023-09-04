@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseIntPipe } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
@@ -27,19 +27,19 @@ export class BooksController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id',ParseIntPipe) id: string) {
     return await  this.booksService.findOne(+id);
   }
 
   @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Patch(':id')
- async update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto,@CurrentUser() currentUser:UserEntity):Promise<Book> {
+ async update(@Param('id',ParseIntPipe) id: string, @Body() updateBookDto: UpdateBookDto,@CurrentUser() currentUser:UserEntity):Promise<Book> {
     return await this.booksService.update(+id, updateBookDto,currentUser);
   }
 
   @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id',ParseIntPipe) id: string) {
     return this.booksService.remove(+id);
   }
 }

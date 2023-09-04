@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete , UseGuards} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete , UseGuards, ParseIntPipe} from '@nestjs/common';
 import { GenreService } from './genre.service';
 import { CreateGenreDto } from './dto/create-genre.dto';
 import { UpdateGenreDto } from './dto/update-genre.dto';
@@ -8,8 +8,10 @@ import { AuthorizeGuard } from 'src/utility/guards/authorization.guards';
 import { Roles } from 'src/utility/common/user.roles.enum';
 import { AuthenticationGuard } from 'src/utility/guards/authentication.guards';
 import { GenreEntity } from './entities/genre.entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('genre')
+@ApiTags('Genres')
 export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 
@@ -26,13 +28,13 @@ export class GenreController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id',ParseIntPipe) id: string) {
     return this.genreService.findOne(+id);
 
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGenreDto: UpdateGenreDto) {
+  update(@Param('id',ParseIntPipe) id: string, @Body() updateGenreDto: UpdateGenreDto) {
     return this.genreService.update(+id, updateGenreDto);
   }
 

@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class ReviewsService {
-  create(createReviewDto: CreateReviewDto) {
+
+  async create(createReviewDto: CreateReviewDto,currentUser:UserEntity) {
+
     return 'This action adds a new review';
   }
 

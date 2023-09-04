@@ -48,9 +48,9 @@ async signin(userSignInDto: UserSignInDto):Promise<UserEntity>{
   return user;
 
 }
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
+  // create(createUserDto: CreateUserDto) {
+  //   return 'This action adds a new user';
+  // }
 
   async findAll(): Promise<UserEntity[]> {
     return await this.usersRepository.find();
@@ -62,8 +62,11 @@ async signin(userSignInDto: UserSignInDto):Promise<UserEntity>{
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(updateUserDto: UpdateUserDto, currentUser:UserEntity,): Promise<UserEntity> {
+    const activeUser= await this.findOne(currentUser.id);
+    Object.assign(activeUser, updateUserDto);
+    const userUpdated= await this.usersRepository.save(activeUser);
+    return userUpdated;
   }
 
   remove(id: number) {

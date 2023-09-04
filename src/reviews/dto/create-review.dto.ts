@@ -11,5 +11,6 @@ export class CreateReviewDto {
     ratings:number;
 
     @IsNotEmpty({message:'comment should not be empty.'})
+    @IsString()
     comment:string;
 }
