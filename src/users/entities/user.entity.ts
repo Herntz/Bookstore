@@ -1,5 +1,6 @@
 import { Book } from "src/books/entities/book.entity";
 import { GenreEntity } from "src/genre/entities/genre.entity";
+import { Order } from "src/orders/entities/order.entity";
 import { ReviewEntity } from "src/reviews/entities/review.entity";
 import { Roles } from "src/utility/common/user.roles.enum";
 import { Entity,
@@ -36,4 +37,10 @@ export class UserEntity {
     
     @OneToMany(()=>ReviewEntity,(rev)=>rev.user)
     reviews: ReviewEntity[];
+
+    @OneToMany(()=> Order,(order)=>order.updatedBy)
+    ordersUpdateBy: Order[];
+
+    @OneToMany(()=>Order,(order)=>order.user)
+    orders:Order[];
 }

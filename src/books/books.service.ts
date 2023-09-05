@@ -6,6 +6,7 @@ import { Book } from './entities/book.entity';
 import { Repository } from 'typeorm';
 import { GenreService } from 'src/genre/genre.service';
 import { UserEntity } from 'src/users/entities/user.entity';
+import { OrderStatus } from 'src/orders/enums/order-status.enum';
 
 
 @Injectable()
@@ -59,5 +60,16 @@ export class BooksService {
       throw new NotFoundException('Etudiant not found');
     }
     return await this.bookRepository.delete(id);
+  }
+
+  async updateStock(id:number,stock:number,status:string){
+    let book=await this.findOne(id);
+    if(status===OrderStatus.DELIVERED){
+      book.book_stock-=stock;
+    }else{
+      book.book_stock+=stock;
+    }
+    book=await this.bookRepository.save(book);
+    return book; 
   }
 }
