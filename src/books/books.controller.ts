@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseIntPipe } from '@nestjs/common';
+import {
+   Controller,
+   Get,Post, 
+   Body, Patch,
+   Param, Delete,
+   UseGuards, 
+   ParseIntPipe, 
+   Query,UseInterceptors } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
@@ -9,6 +16,8 @@ import { Roles } from 'src/utility/common/user.roles.enum';
 import { CurrentUser } from 'src/utility/decorators/current-user.decorator';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { Book } from './entities/book.entity';
+import { SerializeIncludes, SerializeInterceptor } from 'src/utility/interceptors/serialize.interceptor';
+import { BooksDto } from './dto/books.dto';
 
 @Controller('books')
 @ApiTags('Books')
@@ -21,13 +30,14 @@ export class BooksController {
     return await this.booksService.create(createBookDto,currentUser);
   }
 
+  @SerializeIncludes(BooksDto)
   @Get()
-  async findAll():Promise<Book[]> {
-    return await this.booksService.findAll();
+  async findAll(@Query() query:any):Promise<BooksDto> {
+    return await this.booksService.findAll(query);
   }
 
   @Get(':id')
-  async findOne(@Param('id',ParseIntPipe) id: string) {
+  async findOne(@Param('id',ParseIntPipe) id: string):Promise<Book> {
     return await  this.booksService.findOne(+id);
   }
 

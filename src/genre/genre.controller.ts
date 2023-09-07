@@ -10,7 +10,7 @@ import { AuthenticationGuard } from 'src/utility/guards/authentication.guards';
 import { GenreEntity } from './entities/genre.entity';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('genre')
+@Controller('genres')
 @ApiTags('Genres')
 export class GenreController {
   constructor(private readonly genreService: GenreService) {}

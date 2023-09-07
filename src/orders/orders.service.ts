@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
@@ -14,9 +14,10 @@ import { OrderStatus } from './enums/order-status.enum';
 
 @Injectable()
 export class OrdersService {
-  constructor(@InjectRepository(Order) private readonly orderRepository:Repository<Order>,
-  @InjectRepository(OrdersBooksEntity) private readonly opRepository:Repository<OrdersBooksEntity>,
-  private readonly bookService:BooksService
+  constructor(
+    @InjectRepository(Order) private readonly orderRepository:Repository<Order>,
+    @InjectRepository(OrdersBooksEntity) private readonly opRepository:Repository<OrdersBooksEntity>,
+    @Inject(forwardRef(()=>BooksService))private readonly bookService:BooksService
   ){}
  
   async create(createOrderDto: CreateOrderDto, currentUser:UserEntity):Promise<Order>  {
@@ -66,6 +67,13 @@ export class OrdersService {
         shippingAdress:true, user:true,books:{books:true}
       }
     });
+  }
+
+  async findOneBookById(id:number) {
+    return await this.opRepository.findOne({
+      relations:{books:true},
+      where:{books:{id:id}}
+    })
   }
 
  async update(id: number, updateOrderStatusDto: UpdateOrderStatusDto, currentUser) {

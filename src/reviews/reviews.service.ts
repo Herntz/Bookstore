@@ -9,8 +9,7 @@ import { BooksService } from 'src/books/books.service';
 
 @Injectable()
 export class ReviewsService {
-  constructor(@InjectRepository(ReviewEntity) private readonly 
-  reviewRepository:Repository<ReviewEntity>,
+  constructor(@InjectRepository(ReviewEntity) private readonly reviewRepository:Repository<ReviewEntity>,
   private readonly bookService:BooksService
   ){}
 
@@ -20,7 +19,7 @@ export class ReviewsService {
     if(!review){
     review=this.reviewRepository.create(createReviewDto);
     review.user=currentUser;
-    review.book=book; 
+    review.book=book;
     }else{
       review.comment=createReviewDto.comment,
       review.ratings=createReviewDto.ratings
@@ -65,7 +64,7 @@ export class ReviewsService {
 
   async remove(id: number) {
     const review=await this.findOne(id);
-    return this.reviewReposity.remove(review);
+    return this.reviewRepository.remove(review);
   }
   async findOneByUserAndBook(userId:number,bookId:number){
     return await this.reviewRepository.findOne({
@@ -80,7 +79,7 @@ export class ReviewsService {
       relations:{
         user:true,
         book:{
-          category:true
+          genre:true
         }
       }
     })

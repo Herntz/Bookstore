@@ -12,7 +12,7 @@ export class ReviewEntity {
     ratings:number;
 
     @Column()
-    comment:number;
+    comment:string;
 
     @CreateDateColumn()
     createdAt:Timestamp;
@@ -24,7 +24,7 @@ export class ReviewEntity {
     user:UserEntity;
 
     @ManyToOne(type=>Book,(book)=>book.reviews)
-    book:UserEntity;
+    book:Book;
 
     
 }
