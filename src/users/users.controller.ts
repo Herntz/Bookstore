@@ -37,12 +37,7 @@ export class UsersController {
         return {accessToken,user};
       }
        
-  // @Post()
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return this.usersService.create(createUserDto);
-  // }
 
-  //@AuthorizeRoles(Roles.ADMIN)
   @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Get('all')
   @ApiOperation({

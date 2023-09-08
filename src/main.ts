@@ -12,9 +12,9 @@ async function bootstrap() {
  app.useGlobalFilters(new TypeOrmFilter())
   
  const config = new DocumentBuilder()
-   .setTitle('Api for the backend university ')
+   .setTitle('Api for the backend online Bookstore ')
    .setDescription(`
-   this api is designed for the backend university 
+   this api is designed for the backend online Bookstore 
    CREATED RESSOURCE: 201
    RETRIEVE RESOURCE: 200
    NOT FOUND RESOURCE:404
