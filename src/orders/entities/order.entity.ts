@@ -35,6 +35,8 @@ export class Order {
     @ManyToOne(()=>UserEntity,(user)=>user.orders)
     user:UserEntity;
 
+    total_Panier: number;
+
 
 }
 

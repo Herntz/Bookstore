@@ -9,6 +9,7 @@ import { Order } from './entities/order.entity';
 import { AuthorizeGuard } from 'src/utility/guards/authorization.guards';
 import { Roles } from 'src/utility/common/user.roles.enum';
 import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
+import { UpdateCartDto } from './dto/update-cart.dto';
 
 @Controller('orders')
 export class OrdersController {
@@ -17,7 +18,7 @@ export class OrdersController {
   @UseGuards(AuthenticationGuard)
   @Post()
  async create(@Body() createOrderDto: CreateOrderDto,
- @CurrentUser() currentUser:UserEntity):Promise<Order>  {
+ @CurrentUser() currentUser:UserEntity)  {
     return await this.ordersService.create(createOrderDto,currentUser);
   }
 
@@ -30,7 +31,7 @@ export class OrdersController {
   async findOne(@Param('id') id: string):Promise<Order> {
     return await this.ordersService.findOne(+id);
   }
-
+ 
   @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateOrderStatusDto: UpdateOrderStatusDto,@CurrentUser() currentUser:UserEntity) {
@@ -38,6 +39,10 @@ export class OrdersController {
     return await this.ordersService.update(+id, updateOrderStatusDto,currentUser);
   }
 
+  @Patch('cart/:id')
+  async updateCartItem(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto,@CurrentUser() currentUser:UserEntity) {
+    return await this.ordersService.updateCartItem(+id, updateCartDto,currentUser);
+    }
   @UseGuards(AuthenticationGuard,AuthorizeGuard([Roles.ADMIN]))
   @Put('cancel/:id')
   async cancelled(@Param('id') id: string,@CurrentUser() currentUser:UserEntity) {
