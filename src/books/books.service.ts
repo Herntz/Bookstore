@@ -49,10 +49,15 @@ async findAll(query: any): Promise<{ books: any[]; totalBooks: number; limit: nu
     .groupBy('book.id,genre.id');
   const totalBooks = await queryBuilder.getCount();
 
-  if (query.search) {
-    const search = query.search;
-    queryBuilder.andWhere("book.book_title like :book_title", { book_title: `%${search}%` });
+  if (query.book_title) {
+    const book_title = query.book_title;
+    queryBuilder.andWhere("book.book_title like :book_title", { book_title: `%${book_title}%` });
   }
+  if (query.author) {
+    const author = query.author;
+    queryBuilder.andWhere("book.author like :author", { author: `%${author}%` });
+  } 
+    
   if (query.genre) {
     queryBuilder.andWhere("genre.genres = :genres", { genres: query.genre });
   }
